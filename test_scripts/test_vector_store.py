@@ -40,6 +40,7 @@ def main():
             print(f"Score: {res['score']:.3f}")
             print(f"Text: {res['text'][:100]}...")
             print(f"Metadata: {res['metadata']}")
+            print(f"Chunk {idx+1} embedding type: {type(res['embedding'])}, shape: {getattr(res['embedding'], 'shape', 'unknown')}")
 
 if __name__ == "__main__":
     main() 

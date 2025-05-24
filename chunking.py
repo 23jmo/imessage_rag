@@ -7,6 +7,7 @@ def chunk_by_fixed_size(messages, chunk_size=10):
     Chunk messages into fixed-size groups.
     Each chunk contains up to `chunk_size` messages.
     Adds metadata: start_date, end_date, message_count.
+    Adds a unique 'id' field to each chunk.
     """
     chunks = []
     for i in range(0, len(messages), chunk_size):
@@ -16,6 +17,7 @@ def chunk_by_fixed_size(messages, chunk_size=10):
             f"{'Me' if msg['is_from_me'] else 'Friend'}: {msg['text']}" for msg in chunk
         ])
         chunks.append({
+            'id': len(chunks),
             'text': chunk_text,
             'metadata': {
                 'start_date': chunk[0]['timestamp'],
@@ -30,6 +32,7 @@ def chunk_by_time(messages, hours_gap=1):
     Chunk messages based on time gaps.
     A new chunk starts if the gap between messages exceeds `hours_gap`.
     Adds metadata: start_date, end_date, message_count.
+    Adds a unique 'id' field to each chunk.
     """
     if not messages:
         return []
@@ -51,6 +54,7 @@ def chunk_by_time(messages, hours_gap=1):
                 f"{'Me' if msg['is_from_me'] else 'Friend'}: {msg['text']}" for msg in current_chunk
             ])
             chunks.append({
+                'id': len(chunks),
                 'text': chunk_text,
                 'metadata': {
                     'start_date': current_chunk[0]['timestamp'],
@@ -67,6 +71,7 @@ def chunk_by_time(messages, hours_gap=1):
             f"{'Me' if msg['is_from_me'] else 'Friend'}: {msg['text']}" for msg in current_chunk
         ])
         chunks.append({
+            'id': len(chunks),
             'text': chunk_text,
             'metadata': {
                 'start_date': current_chunk[0]['timestamp'],
@@ -82,6 +87,7 @@ def chunk_by_time_and_fixed(messages, hours_gap=1, max_chunk_size=20):
     Chunk messages by time gap, but cap each chunk at max_chunk_size messages.
     Starts a new chunk if the time gap is exceeded or the chunk size limit is reached.
     Adds metadata: start_date, end_date, message_count.
+    Adds a unique 'id' field to each chunk.
     """
     if not messages:
         return []
@@ -103,6 +109,7 @@ def chunk_by_time_and_fixed(messages, hours_gap=1, max_chunk_size=20):
                 f"{'Me' if msg['is_from_me'] else 'Friend'}: {msg['text']}" for msg in current_chunk
             ])
             chunks.append({
+                'id': len(chunks),
                 'text': chunk_text,
                 'metadata': {
                     'start_date': current_chunk[0]['timestamp'],
@@ -119,6 +126,7 @@ def chunk_by_time_and_fixed(messages, hours_gap=1, max_chunk_size=20):
             f"{'Me' if msg['is_from_me'] else 'Friend'}: {msg['text']}" for msg in current_chunk
         ])
         chunks.append({
+            'id': len(chunks),
             'text': chunk_text,
             'metadata': {
                 'start_date': current_chunk[0]['timestamp'],
